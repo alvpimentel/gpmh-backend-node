@@ -13,7 +13,7 @@ export class PesquisaController {
       
       return {
         success: true,
-        message: 'Pesquisas salvas com sucesso! Planilha disponível em ',
+        message: 'Pesquisas salvas com sucesso!',
         stats: {
           novosRegistros: criados,
           registrosAtualizados: atualizados
