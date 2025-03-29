@@ -7,15 +7,13 @@ export class PesquisaController {
 
   // Inserir pesquisas recebidas em formato JSON
   @Post('create-multiple')
-  async createOrUpdateMany(
-    @Body() body: { codigo_pesquisa: string; nota_1: number; nota_2: number; media: number }[]
-  ) {
+  async createOrUpdateMany(@Body() body: { codigo_pesquisa: string; nota_1: number; nota_2: number; media: number }[]) {
     try {
       const { criados, atualizados } = await this.pesquisaService.createOrUpdateMany(body);
       
       return {
         success: true,
-        message: 'Pesquisas salvas com sucesso!',
+        message: 'Pesquisas salvas com sucesso! Planilha disponível em ',
         stats: {
           novosRegistros: criados,
           registrosAtualizados: atualizados

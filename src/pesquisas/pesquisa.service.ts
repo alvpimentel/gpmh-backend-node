@@ -2,12 +2,16 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Pesquisa } from './pesquisa.entity';
+import { S3Service } from '@/s3/s3.service'; 
+import { XlsxService } from '@/xlsx/xlsx.service';
 
 @Injectable()
 export class PesquisaService {
   constructor(
     @InjectRepository(Pesquisa)
     private readonly pesquisaRepository: Repository<Pesquisa>,
+    private readonly s3Service: S3Service,
+    private readonly xlsxService: XlsxService,
   ) {}
 
   // CRIA OU EDITA SE TIVER CODIGO DUPLICADO
@@ -60,6 +64,16 @@ export class PesquisaService {
           );
         }
       }
+
+      // Gerar o arquivo XLSX com as pesquisas
+      const fileBuffer = await this.xlsxService.generateXLSX(pesquisas);
+
+      // Enviar o arquivo gerado para o S3
+      const bucketName = process.env.AWS_BUCKET_NAME as string;
+      const fileName = `pesquisas-${Date.now()}.xlsx`;
+      await this.s3Service.uploadFile(bucketName, fileName, fileBuffer);
+
+      return { criados, atualizados };
     });
 
     return { criados, atualizados };

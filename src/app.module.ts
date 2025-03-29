@@ -5,6 +5,8 @@ import { PesquisaService } from './pesquisas/pesquisa.service';
 import { Pesquisa } from './pesquisas/pesquisa.entity';
 import { ConfigModule } from '@nestjs/config';
 import { typeOrmConfig } from './data-source';
+import { S3Module } from './s3/s3.module';
+import { XlsxService } from './xlsx/xlsx.service';
 
 @Module({
   imports: [
@@ -15,8 +17,9 @@ import { typeOrmConfig } from './data-source';
       autoLoadEntities: true
     }),
     TypeOrmModule.forFeature([Pesquisa]),
+    S3Module,
   ],
   controllers: [PesquisaController],
-  providers: [PesquisaService],
+  providers: [PesquisaService, XlsxService],
 })
 export class AppModule {}
