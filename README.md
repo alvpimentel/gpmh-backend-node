@@ -30,3 +30,19 @@ npm run start
 http://localhost:3000/
 ```
 Porta Padrão: 3000
+
+## .env
+```bash
+DB_HOST=
+DB_PORT=
+DB_USERNAME=
+DB_PASSWORD=
+DB_DATABASE=
+
+AWS_REGION=
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+AWS_BUCKET_NAME=
+
+PORT=
+```
